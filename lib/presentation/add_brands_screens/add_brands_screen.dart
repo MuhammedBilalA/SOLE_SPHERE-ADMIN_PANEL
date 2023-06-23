@@ -30,7 +30,7 @@ class _AddBrandsScreenState extends State<AddBrandsScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios_new_rounded,
               color: kwhite,
             )),
@@ -42,13 +42,13 @@ class _AddBrandsScreenState extends State<AddBrandsScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             Container(
                 width: double.infinity,
                 height: 300,
-                color: (imagePath == 'x') ? Color(0xFF2C2B2B) : kwhite,
+                color: (imagePath == 'x') ? const Color(0xFF2C2B2B) : kwhite,
                 child: (imagePath == 'x')
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -90,13 +90,13 @@ class _AddBrandsScreenState extends State<AddBrandsScreen> {
                           ),
                         ),
                       )),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Form(
               key: formkey,
               child: TextFormField(
-                style: TextStyle(color: kwhite),
+                style: const TextStyle(color: kwhite),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'please enter the brand name';
@@ -163,7 +163,7 @@ class _AddBrandsScreenState extends State<AddBrandsScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           backgroundColor: Colors.green,
-                          content: Center(child: Text('gigiggigigi'))));
+                          content: const Center(child: Text('gigiggigigi'))));
                     Navigator.pop(context);
                   }
                 },
