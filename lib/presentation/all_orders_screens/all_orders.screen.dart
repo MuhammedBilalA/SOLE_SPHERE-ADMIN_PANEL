@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
 import 'package:sole_sphere_admin/presentation/all_orders_screens/widgets/order_details.dart';
+import 'package:sole_sphere_admin/presentation/all_orders_screens/widgets/order_details_tile.dart';
 import 'package:sole_sphere_admin/presentation/all_orders_screens/widgets/track_order.dart';
+import 'package:sole_sphere_admin/widgets/question_popup.dart';
+import 'package:sole_sphere_admin/widgets/snackbar.dart';
 
 class AllOrdersScreens extends StatelessWidget {
   const AllOrdersScreens({super.key});
@@ -11,7 +14,7 @@ class AllOrdersScreens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         backgroundColor: kblack,
         appBar: AppBar(
@@ -38,13 +41,27 @@ class AllOrdersScreens extends StatelessWidget {
                     style: TextStyle(color: kwhite),
                   ),
                 ),
+                Tab(
+                  child: Text(
+                    'Cancel Request',
+                    style: TextStyle(color: kwhite),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    'Canceled Orders',
+                    style: TextStyle(
+                      color: kwhite,
+                    ),
+                  ),
+                ),
               ]),
 
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios_rounded,
                 color: kwhite,
               )),
@@ -57,7 +74,7 @@ class AllOrdersScreens extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OrderDetails(),
+                        builder: (context) => const OrderDetails(),
                       ));
                     },
                     child: OrderDetailsTile(
@@ -87,100 +104,39 @@ class AllOrdersScreens extends StatelessWidget {
                 },
                 itemCount: 3),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return OrderDetailsTile(
+                    track: true,
+                    color: Colors.red,
+                    trialing: 'Cancel',
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                },
+                itemCount: 3),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return OrderDetailsTile(
+                    track: false,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                },
+                itemCount: 3),
+          ),
         ]),
-      ),
-    );
-  }
-}
-
-class OrderDetailsTile extends StatelessWidget {
-  OrderDetailsTile({super.key, required this.track});
-  bool track;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
-      child: Container(
-        width: double.infinity,
-        height: 150,
-        decoration: BoxDecoration(
-            border: Border.all(color: kwhite),
-            borderRadius: BorderRadius.circular(12)),
-        child: Row(
-          children: [
-            const Spacer(
-              flex: 1,
-            ),
-            Container(
-              height: 115,
-              width: 115,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: kwhite),
-              child: Image.asset(
-                'assets/images/bagrem.png',
-              ),
-            ),
-            const Spacer(
-              flex: 1,
-            ),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(),
-                Text(
-                  'NIKE',
-                  style: TextStyle(
-                      color: kwhite, fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                SizedBox(
-                  width: 200,
-                  // color: Colors.red,
-                  child: Text(
-                    'Order Id : 150860646464',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: kwhite,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  ),
-                ),
-                Text(
-                  'Quandity : 1',
-                  style: TextStyle(
-                      color: kwhite, fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Text(
-                  '₹ 3258',
-                  style: TextStyle(
-                      color: kwhite, fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                SizedBox()
-              ],
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TrackOrder(),
-                ));
-              },
-              child: Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: Text(
-                  'TRACK',
-                  style: TextStyle(
-                      color: (track == true) ? kwhite : kblack,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 15),
-                ),
-              ),
-            ),
-            const Spacer(
-              flex: 1,
-            )
-          ],
-        ),
       ),
     );
   }
