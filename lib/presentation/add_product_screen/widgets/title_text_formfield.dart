@@ -29,6 +29,7 @@ class TitleTexFormField extends StatelessWidget {
             keyboardType: inputType,
             expands: true,
             maxLines: null,
+            
             cursorColor: kwhite,
             style: TextStyle(color: kwhite),
             decoration: InputDecoration(

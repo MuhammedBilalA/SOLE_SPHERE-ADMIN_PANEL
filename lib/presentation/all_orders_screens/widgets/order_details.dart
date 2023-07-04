@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
 
@@ -34,7 +32,7 @@ class OrderDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Order Id : 12378942656',
+                  'Order Id  :  12378942656',
                   style: TextStyle(
                       color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -42,7 +40,7 @@ class OrderDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Name : AIR JORDHAN',
+                  'Name  :  AIR JORDHAN',
                   style: TextStyle(
                       color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -50,7 +48,7 @@ class OrderDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Price : ₹ 3258',
+                  'Real Price  :  ₹ 3,999',
                   style: TextStyle(
                       color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -58,7 +56,7 @@ class OrderDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Quandity : 1',
+                  'Offer Price  :  ₹ 2,999',
                   style: TextStyle(
                       color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -66,7 +64,31 @@ class OrderDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'E-mail : bilalmuhammed402@gmail.com',
+                  'OfferPercentage  :  40%',
+                  style: TextStyle(
+                      color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Amount Payable  :  ₹ 2,999',
+                  style: TextStyle(
+                      color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Quandity  :  1',
+                  style: TextStyle(
+                      color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'E-mail  :  bilalmuhammed402@gmail.com',
                   style: TextStyle(
                       color: kwhite, fontSize: 18, fontWeight: FontWeight.bold),
                 ),

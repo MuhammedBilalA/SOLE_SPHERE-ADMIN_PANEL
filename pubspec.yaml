@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^0.8.9
   order_tracker: ^0.0.2
+  firebase_core: ^2.14.0
+  shimmer: ^3.0.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
