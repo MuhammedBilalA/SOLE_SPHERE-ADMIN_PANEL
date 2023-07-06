@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sole_sphere_admin/application/add_product/product_details_size.dart';
@@ -5,9 +7,11 @@ import 'package:sole_sphere_admin/application/add_product/product_details_size.d
 import 'package:sole_sphere_admin/core/colors/colors.dart';
 
 class SizeTile extends StatelessWidget {
-  const SizeTile({super.key, required this.index});
+  SizeTile({super.key, required this.index, required this.size, required this.availableQuandity});
 
   final int index;
+  String size;
+  List<dynamic> availableQuandity;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,8 @@ class SizeTile extends StatelessWidget {
     return Center(
       child: InkWell(
         onTap: () {
-          controller.indexchange(index);
+          log(availableQuandity[index]);
+          controller.indexchange(index, availableQuandity);
         },
         child: Container(
           height: 60,
@@ -26,7 +31,7 @@ class SizeTile extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              '4$index',
+              size,
               style: TextStyle(
                   color: (index == controller.index) ? kblack : kwhite,
                   fontSize: 20,

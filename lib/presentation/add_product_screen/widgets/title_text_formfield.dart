@@ -7,11 +7,13 @@ class TitleTexFormField extends StatelessWidget {
       required this.title,
       required this.height,
       required this.inputType,
-      required this.textEditingController});
+      required this.textEditingController,
+      this.maxLength});
   String title;
   double height;
   TextInputType inputType;
   TextEditingController textEditingController;
+  int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class TitleTexFormField extends StatelessWidget {
         SizedBox(
           height: height,
           child: TextFormField(
+            maxLength: maxLength,
             controller: textEditingController,
             keyboardType: inputType,
             expands: true,
@@ -34,6 +37,7 @@ class TitleTexFormField extends StatelessWidget {
             cursorColor: kwhite,
             style: TextStyle(color: kwhite),
             decoration: InputDecoration(
+              counterStyle: TextStyle(color: Colors.white),
               helperText: '',
               label: Text(
                 title,

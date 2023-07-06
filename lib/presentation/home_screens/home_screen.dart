@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
+import 'package:sole_sphere_admin/domain/brand_model/brand_model.dart';
+import 'package:sole_sphere_admin/infrastructure/service/brand_services.dart';
 import 'package:sole_sphere_admin/presentation/add_brands_screens/add_brands_screen.dart';
 import 'package:sole_sphere_admin/presentation/add_product_screen/add_product_screen.dart';
 import 'package:sole_sphere_admin/presentation/all_brands_screens/all_brands_screen.dart';
@@ -35,32 +37,35 @@ class HomeScreen extends StatelessWidget {
             children: [
               InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AllProductScreen()));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => AllProductScreen()));
                   },
                   child: HomeScreenListTile(title: 'ALL PRODUCT')),
               InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AllBrandsScreen()));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => AllBrandsScreen()));
                   },
                   child: HomeScreenListTile(title: 'ALL BRANDS')),
               InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    List<BrandModel> list = await BrandServices().getBrand();
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddProductScreen()));
+                        builder: (context) => AddProductScreen(
+                              options: list,
+                            )));
                   },
                   child: HomeScreenListTile(title: 'ADD PRODUCT')),
               InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AllOrdersScreens()));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => AllOrdersScreens()));
                   },
                   child: HomeScreenListTile(title: 'ALL ORDERS')),
               InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AllUsersScreen()));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => AllUsersScreen()));
                   },
                   child: HomeScreenListTile(title: 'User Details')),
             ],

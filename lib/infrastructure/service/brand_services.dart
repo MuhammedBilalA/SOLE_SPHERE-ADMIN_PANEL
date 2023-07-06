@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,5 +28,23 @@ class BrandServices {
     final brand = BrandModel(brandName: brandName, imageUrl: imageUrl);
     final json = brand.toJson();
     await docRef.set(json);
+  }
+
+  Future<List<BrandModel>> getBrand() async {
+    List<BrandModel> brandList = [];
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('solesphere')
+        .doc('admin')
+        .collection('brands')
+        .get();
+
+    List data = querySnapshot.docs;
+
+    for (var element in data) {
+      BrandModel model = BrandModel(brandName: element['brandName'], imageUrl: element['image']);
+      brandList.add(model);
+  
+    }
+    return brandList;
   }
 }

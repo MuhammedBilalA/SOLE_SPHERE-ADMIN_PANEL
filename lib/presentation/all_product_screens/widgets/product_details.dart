@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,15 +9,41 @@ import 'package:sole_sphere_admin/core/colors/colors.dart';
 import 'package:sole_sphere_admin/presentation/all_product_screens/widgets/size_tile.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  ProductDetailsScreen({super.key});
+  ProductDetailsScreen(
+      {super.key,
+      required this.productName,
+      required this.offerPercentage,
+      required this.realPrice,
+      required this.image1,
+      required this.image2,
+      required this.image3,
+      required this.offerPrice,
+      required this.brand,
+      required this.productDescription,
+      required this.sizeDetails});
 
- final List<String> imageList = [
-    'assets/images/shoe2.png',
-    'assets/images/shoe4.png',
-  ];
+  String brand;
+  String productName;
+  String offerPercentage;
+  String offerPrice;
+  String realPrice;
+  Map<String, dynamic> sizeDetails;
+  String productDescription;
+  String image1;
+  String image2;
+  String image3;
 
   @override
   Widget build(BuildContext context) {
+    List<String> availableSize = [];
+    availableSize.addAll(sizeDetails.keys);
+    List<dynamic> availableQuandity = [];
+    availableQuandity.addAll(sizeDetails.values);
+    List<String> imageList = [image1, image2, image3];
+    SizeController sizeinitialController = Provider.of<SizeController>(context, listen: false);
+    sizeinitialController.quandity = availableQuandity[0];
+    sizeinitialController.index = 0;
+
     return Scaffold(
       backgroundColor: kblack,
       appBar: AppBar(
@@ -58,7 +86,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: Center(
                         child: CarouselSlider.builder(
                           options: CarouselOptions(
-                            autoPlay: true,
+                            autoPlay: false,
                             autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration: const Duration(milliseconds: 800),
                           ),
@@ -67,7 +95,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             height: 200,
                             width: 200,
                             // color: kblack,
-                            child: Image.asset(imageList[index]),
+                            child: Image(image: NetworkImage(imageList[index])),
                           ),
                         ),
                       ),
@@ -76,10 +104,10 @@ class ProductDetailsScreen extends StatelessWidget {
                       Container(
                         // color: kred,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.only(left: 10, top: 20, bottom: 10),
                           child: Text(
-                            "Nike Air Jordhan",
+                            productName,
                             style: TextStyle(
                                 color: kwhite,
                                 overflow: TextOverflow.clip,
@@ -95,10 +123,10 @@ class ProductDetailsScreen extends StatelessWidget {
                         width: double.infinity,
                         height: 40,
                         // color: kred,
-                        child: const Row(
+                        child: Row(
                           children: [
                             Text(
-                              '-85% off',
+                              '-$offerPercentage% off',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 255, 4, 4),
                                   fontWeight: FontWeight.w400,
@@ -108,7 +136,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               flex: 1,
                             ),
                             Text(
-                              '₹ 3,544.00',
+                              '₹ $offerPrice.00',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 0, 255, 34),
                                   fontWeight: FontWeight.w400,
@@ -121,7 +149,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Row(
                         children: [
@@ -133,7 +161,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 fontSize: 14),
                           ),
                           Text(
-                            '₹4,599.00',
+                            '₹$realPrice.00',
                             style: TextStyle(
                                 color: Color.fromARGB(255, 193, 189, 189),
                                 decoration: TextDecoration.lineThrough,
@@ -145,25 +173,26 @@ class ProductDetailsScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 10.0, top: 10),
-                      child: Text(
-                        'Only 2 left in stock',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 47, 47),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16),
-                      ),
+                      child: Consumer<SizeController>(builder: (context, quandityDisplay, child) {
+                        return Text(
+                          'Only ${quandityDisplay.quandity} left in stock',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 47, 47),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16),
+                        );
+                      }),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         width: double.infinity,
                         // height: double.infinity,
                         // color: kred,
-                        child: const Text(
-                          "dable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the lik",
+                        child: Text(
+                          "$productDescription",
                           style: TextStyle(
                               overflow: TextOverflow.fade,
                               color: Color.fromARGB(255, 193, 192, 192),
@@ -172,29 +201,6 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Wrap(
-                    //   spacing: 5.0,
-                    //   children: List<Widget>.generate(
-                    //     3,
-                    //     (int index) {
-                    //       return Transform(
-                    //         transform: new Matrix4.identity()..scale(.99),
-                    //         child: ChoiceChip(
-                    //           shape: RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(100)),
-                    //           label: Text('4$index'),
-                    //           selected: _value == index,
-                    //           selectedColor: kred,
-                    //           onSelected: (bool selected) {
-                    //             setState(() {
-                    //               _value = selected ? index : null;
-                    //             });
-                    //           },
-                    //         ),
-                    //       );
-                    //     },
-                    //   ).toList(),
-                    // ),
                     const Padding(
                       padding: EdgeInsets.only(left: 10.0, top: 15),
                       child: Text(
@@ -207,27 +213,29 @@ class ProductDetailsScreen extends StatelessWidget {
                       width: double.infinity,
                       // color: kred,
                       child: Center(
-                        child: ChangeNotifierProvider(
-                            create: (context) => SizeController(),
-                            child: Consumer(builder: (context, value, child) {
-                              return ListView.separated(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {},
-                                      child: SizeTile(
-                                        index: index,
-                                      ),
-                                    );
+                        child: Consumer<SizeController>(builder: (context, value, child) {
+                          return ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    log('message');
                                   },
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      width: 10,
-                                    );
-                                  },
-                                  itemCount: 5);
-                            })),
+                                  child: SizeTile(
+                                    size: availableSize[index],
+                                    availableQuandity: availableQuandity,
+                                    index: index,
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  width: 10,
+                                );
+                              },
+                              itemCount: sizeDetails.length);
+                        }),
                       ),
                     ),
                   ],

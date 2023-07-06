@@ -1,32 +1,36 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sole_sphere_admin/application/add_product/add_size_notifier.dart';
 import 'package:sole_sphere_admin/application/add_product/brand_selection_notifier.dart';
 import 'package:sole_sphere_admin/application/add_product/image_add_notifier.dart';
 import 'package:sole_sphere_admin/application/add_product/size_builder.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
+import 'package:sole_sphere_admin/domain/brand_model/brand_model.dart';
+import 'package:sole_sphere_admin/infrastructure/service/product_services.dart';
 import 'package:sole_sphere_admin/presentation/add_product_screen/widgets/size_count_widget.dart';
 import 'package:sole_sphere_admin/presentation/add_product_screen/widgets/title_text_formfield.dart';
+import 'package:sole_sphere_admin/presentation/home_screens/home_screen.dart';
+import 'package:sole_sphere_admin/widgets/question_popup.dart';
 import 'package:sole_sphere_admin/widgets/snackbar.dart';
 
 class AddProductScreen extends StatelessWidget {
-  AddProductScreen({super.key});
+  AddProductScreen({super.key, required this.options});
 
-  final List<String> options = [
-    'NIKE',
-    'ADDIDAS',
-    'PUMA',
-    'BATA',
-  ];
+  final List<BrandModel> options;
 
   final productNameController = TextEditingController();
   final realPriceController = TextEditingController();
   final offerPercentageController = TextEditingController();
   final discriptionController = TextEditingController();
   XFile? image1;
+  XFile? image2;
+  XFile? image3;
+  String? selectedBrand = 'x';
   final formkey = GlobalKey<FormState>();
 
   @override
@@ -116,7 +120,13 @@ class AddProductScreen extends StatelessWidget {
                                                 final pickedFile = await ImagePicker()
                                                     .pickImage(source: ImageSource.gallery);
                                                 if (pickedFile != null) {
-                                                  image1 = pickedFile;
+                                                  if (index == 0) {
+                                                    image1 = pickedFile;
+                                                  } else if (index == 1) {
+                                                    image2 = pickedFile;
+                                                  } else if (index == 2) {
+                                                    image3 = pickedFile;
+                                                  }
                                                   imageController.imageAdd(
                                                       imagePath: pickedFile.path, index: index);
                                                 }
@@ -176,6 +186,7 @@ class AddProductScreen extends StatelessWidget {
                       textEditingController: realPriceController),
                   TitleTexFormField(
                       title: 'Offer Percentage',
+                      maxLength: 2,
                       height: 80,
                       inputType: TextInputType.number,
                       textEditingController: offerPercentageController),
@@ -229,13 +240,15 @@ class AddProductScreen extends StatelessWidget {
                         onChanged: (newValue) {
                           // setState(() {
                           brandSelectionController.getBrand(newValue);
+                          selectedBrand = newValue;
+
                           // selectedOption = newValue;
                           // });
                         },
-                        items: options.map<DropdownMenuItem<String>>((String value) {
+                        items: options.map<DropdownMenuItem<String>>((BrandModel value) {
                           return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+                            value: value.brandName,
+                            child: Text(value.brandName),
                           );
                         }).toList(),
                       );
@@ -319,9 +332,24 @@ class AddProductScreen extends StatelessWidget {
                                 style: const ButtonStyle(
                                     backgroundColor:
                                         MaterialStatePropertyAll(Color.fromARGB(255, 3, 59, 15))),
-                                onPressed: () {
+                                onPressed: () async {
                                   if (formkey.currentState!.validate()) {
-                                    log('s');
+                                    if (image1 == null || image2 == null || image3 == null) {
+                                      snackbarFailed(text: '3 images required', context: context);
+                                    } else if (selectedBrand == null || selectedBrand == 'x') {
+                                      snackbarFailed(
+                                          text: 'please select a brand', context: context);
+                                    } else if (sizebuilder.sizeQuantityMap.isEmpty) {
+                                      snackbarFailed(text: 'Size is requiered', context: context);
+                                    } else {
+                                      loadingPopUp(context);
+                                      await productAddingFunction(
+                                          productSize: sizebuilder.sizeQuantityMap);
+                                      snackbarSuccess(
+                                          text: 'Product added Successfully', context: context);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    }
                                   }
                                   log(sizebuilder.sizeQuantityMap.toString());
                                 },
@@ -339,6 +367,33 @@ class AddProductScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> productAddingFunction({required Map<String, String> productSize}) async {
+    if (image1 == null) {
+      log('image1 is null');
+    }
+
+    int offerPrice = await ProductServices().offerPriceCalculator(
+        realPrice: realPriceController.text, offerPercentage: offerPercentageController.text);
+
+    final downloadImageUrl1 = await ProductServices().uploadImg(image1!);
+    final downloadImageUrl2 = await ProductServices().uploadImg(image2!);
+    final downloadImageUrl3 = await ProductServices().uploadImg(image3!);
+    log('4');
+
+    await ProductServices().addProduct(
+        imageUrl1: downloadImageUrl1,
+        imageUrl2: downloadImageUrl2,
+        imageUrl3: downloadImageUrl3,
+        productName: productNameController.text,
+        realPrice: realPriceController.text,
+        offerPercentage: offerPercentageController.text,
+        description: discriptionController.text,
+        brand: selectedBrand!,
+        productSize: productSize,
+        offerPrice: offerPrice.toString());
+    log('5');
   }
 
   Future<dynamic> addSizeDialog(BuildContext context, SizeBuilder sizebuilder) {

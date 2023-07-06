@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
-import 'package:sole_sphere_admin/infrastructure/add_brand_functions/add_brand_function.dart';
+
 import 'package:sole_sphere_admin/presentation/add_brands_screens/add_brands_screen.dart';
 
 class AllBrandsScreen extends StatelessWidget {
@@ -91,8 +91,20 @@ class AllBrandsScreen extends StatelessWidget {
                       },
                     )
                   : Center(
-                      child: CircularProgressIndicator(
-                        color: kred,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10), color: Colors.transparent),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            LoadingAnimationWidget.waveDots(
+                              color: Colors.white,
+                              size: 45,
+                            ),
+                          ],
+                        ),
                       ),
                     );
             }));
