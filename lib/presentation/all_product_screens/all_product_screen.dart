@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
+import 'package:sole_sphere_admin/presentation/all_product_screens/widgets/product_details.dart';
 
 class AllProductScreen extends StatelessWidget {
   const AllProductScreen({super.key});
@@ -36,16 +37,16 @@ class AllProductScreen extends StatelessWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
+          itemCount: 5,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                // Navigator.of(context).push(CupertinoPageRoute(
-                //   builder: (context) => ProductDetailsScreen(),
-                // ));
+                Navigator.of(context).push(CupertinoPageRoute(
+                  builder: (context) => ProductDetailsScreen(),
+                ));
               },
               child: Container(
-                decoration: BoxDecoration(
-                    color: kwhite, borderRadius: BorderRadius.circular(20)),
+                decoration: BoxDecoration(color: kwhite, borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -56,8 +57,7 @@ class AllProductScreen extends StatelessWidget {
                             if (value == 0) {
                             } else {}
                           },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           iconSize: 28,
                           itemBuilder: (context) {
                             return [
@@ -109,9 +109,7 @@ class AllProductScreen extends StatelessWidget {
                               child: Text(
                                 (index % 2 == 0) ? 'ADDIDAS' : 'AIR JORDHAN',
                                 style: TextStyle(
-                                    color: kblack,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 15),
+                                    color: kblack, fontWeight: FontWeight.w900, fontSize: 15),
                               ),
                             )),
                         SizedBox(
@@ -119,8 +117,7 @@ class AllProductScreen extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.only(left: 7.0),
                               child: Shimmer.fromColors(
-                                baseColor: const Color.fromARGB(255, 64, 0, 255)
-                                    .withOpacity(.9),
+                                baseColor: const Color.fromARGB(255, 64, 0, 255).withOpacity(.9),
                                 highlightColor: Colors.deepOrange,
                                 child: Text(
                                   (index % 2 == 0) ? '85% off' : '75% off',
@@ -153,13 +150,10 @@ class AllProductScreen extends StatelessWidget {
                                 flex: 1,
                               ),
                               Shimmer.fromColors(
-                                baseColor: Color.fromARGB(255, 5, 153, 32)
-                                    .withOpacity(.9),
+                                baseColor: Color.fromARGB(255, 5, 153, 32).withOpacity(.9),
                                 highlightColor: Color.fromARGB(255, 0, 255, 8),
                                 child: Text(
-                                  (index % 2 == 0)
-                                      ? '₹ 2,999.00'
-                                      : '₹ 3,544.00',
+                                  (index % 2 == 0) ? '₹ 2,999.00' : '₹ 3,544.00',
                                   style: TextStyle(
                                       color: Colors.green,
                                       // decorationThickness: 1.8,

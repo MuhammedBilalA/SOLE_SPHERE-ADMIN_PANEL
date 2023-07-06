@@ -47,7 +47,6 @@ class OrderDetailsTile extends StatelessWidget {
                 ),
                 SizedBox(
                   width: 200,
-                  // color: Colors.red,
                   child: Text(
                     'Order Id : 150860646464',
                     overflow: TextOverflow.ellipsis,

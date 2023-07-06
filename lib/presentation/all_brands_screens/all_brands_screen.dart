@@ -1,7 +1,7 @@
-import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
 import 'package:sole_sphere_admin/infrastructure/add_brand_functions/add_brand_function.dart';
 import 'package:sole_sphere_admin/presentation/add_brands_screens/add_brands_screen.dart';
@@ -47,50 +47,54 @@ class AllBrandsScreen extends StatelessWidget {
             )
           ],
         ),
-        body: (brandList.isNotEmpty)
-            ? GridView.builder(
-                itemCount: brandList.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisExtent: 250,
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: kwhite),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: size.width * 0.13,
-                          ),
-                          SizedBox(
-                            height: 100,
-                            width: 160,
-                            child: Image(
-                                image: FileImage(
-                                    File(brandList[index].brandImage))),
-                          ),
-                          SizedBox(
-                            height: size.width * 0.05,
-                          ),
-                          Text(
-                            brandList[index].brandName,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900, fontSize: 20),
-                          ),
-                        ],
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('solesphere')
+                .doc('admin')
+                .collection('brands')
+                .snapshots(),
+            builder: (context, snapshot) {
+              return (snapshot.hasData)
+                  ? GridView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisExtent: 250,
+                        crossAxisCount: 2,
                       ),
-                    ),
-                  );
-                },
-              )
-            : Center(
-                child: Text(
-                'ADD NEW BRAND',
-                style: TextStyle(color: kwhite),
-              )));
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10), color: kwhite),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: size.width * 0.13,
+                                ),
+                                SizedBox(
+                                    height: 100,
+                                    width: 160,
+                                    child: Image(
+                                        image: NetworkImage(snapshot.data!.docs[index]['image']))),
+                                SizedBox(
+                                  height: size.width * 0.05,
+                                ),
+                                Text(
+                                  snapshot.data!.docs[index]['brandName'],
+                                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(
+                        color: kred,
+                      ),
+                    );
+            }));
   }
 }

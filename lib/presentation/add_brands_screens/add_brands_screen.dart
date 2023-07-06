@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sole_sphere_admin/application/add_brand/add_brand_image_notifier.dart';
 import 'package:sole_sphere_admin/core/colors/colors.dart';
 import 'package:sole_sphere_admin/infrastructure/add_brand_functions/add_brand_function.dart';
+import 'package:sole_sphere_admin/infrastructure/service/brand_services.dart';
 import 'package:sole_sphere_admin/widgets/snackbar.dart';
 
 class AddBrandsScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class AddBrandsScreen extends StatelessWidget {
   // String imagePath = 'x';
 
   final formkey = GlobalKey<FormState>();
+  XFile? pickedFile;
 
   TextEditingController brandNameControllor = TextEditingController();
 
@@ -55,11 +57,11 @@ class AddBrandsScreen extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () async {
-                                final pickedFile =
+                                pickedFile =
                                     await ImagePicker().pickImage(source: ImageSource.gallery);
                                 if (pickedFile != null) {
                                   // setState(() {
-                                  controller.getImage(pickedFile.path);
+                                  controller.getImage(pickedFile!.path);
                                   // imagePath = pickedFile.path;
                                   // });
                                 }
@@ -140,15 +142,21 @@ class AddBrandsScreen extends StatelessWidget {
             ElevatedButton.icon(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(73, 73, 73, 1))),
-                onPressed: () {
+                onPressed: () async {
                   if (formkey.currentState!.validate()) {
-                    if (controller.imagePath == 'x') {
+                    if (controller.imagePath == 'x' && pickedFile == null) {
                       snackbarFailed(text: 'Image is requiered', context: context);
                     } else {
-                      Brand brand = Brand(
-                          brandImage: controller.imagePath, brandName: brandNameControllor.text);
+                      log('1');
 
-                      brandList.add(brand);
+                      await addBrand();
+
+                      log('2');
+
+                      // Brand brand = Brand(
+                      //     brandImage: controller.imagePath, brandName: brandNameControllor.text);
+
+                      // brandList.add(brand);
                       snackbarSuccess(
                           text: '${brandNameControllor.text} Brand added Successfully',
                           context: context);
@@ -167,5 +175,17 @@ class AddBrandsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> addBrand() async {
+    if (pickedFile == null) {
+      log('picknull');
+    }
+
+    final downloadImageUrl = await BrandServices().uploadImg(pickedFile!);
+    log('4');
+
+    await BrandServices().addBrand(downloadImageUrl, brandNameControllor.text);
+    log('5');
   }
 }

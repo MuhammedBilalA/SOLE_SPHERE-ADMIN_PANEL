@@ -1,41 +1,70 @@
 {
   "project_info": {
-    "project_number": "519698916489",
-    "project_id": "solesphereadmin",
-    "storage_bucket": "solesphereadmin.appspot.com"
+    "project_number": "735352170496",
+    "project_id": "solesphere-6c9a8",
+    "storage_bucket": "solesphere-6c9a8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519698916489:android:7c5ea216ea6f3949609258",
+        "mobilesdk_app_id": "1:735352170496:android:bbf956cf0d21f1f22a10e5",
         "android_client_info": {
-          "package_name": "com.bilal.sole_sphere_admin"
+          "package_name": "com.bilal.sole_sphere"
         }
       },
       "oauth_client": [
         {
-          "client_id": "519698916489-l1eve2uk04vrbgvneh4h9h0ajae63l17.apps.googleusercontent.com",
+          "client_id": "735352170496-gu3asbjr50ua8eh6a8gjieos5cunnonf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bilal.sole_sphere_admin",
+            "package_name": "com.bilal.sole_sphere",
             "certificate_hash": "79beb8fc85c0dc8aa2f241a347d5f06168520d00"
           }
         },
         {
-          "client_id": "519698916489-5q9ha2cei849vdq2gt5g5fu1u2qlko34.apps.googleusercontent.com",
+          "client_id": "735352170496-dvktoh6u17ae47d8a5m1al7ebv05oq0b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuysUaVaVl2NsfSWrxnR4tvT9aEQZnP7k"
+          "current_key": "AIzaSyByWcib6Q6IxAu-ziNg4A8v77a91WXxtqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "519698916489-5q9ha2cei849vdq2gt5g5fu1u2qlko34.apps.googleusercontent.com",
+              "client_id": "735352170496-dvktoh6u17ae47d8a5m1al7ebv05oq0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735352170496:android:ae1fb2741125ec402a10e5",
+        "android_client_info": {
+          "package_name": "com.bilal.sole_sphere_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735352170496-dvktoh6u17ae47d8a5m1al7ebv05oq0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByWcib6Q6IxAu-ziNg4A8v77a91WXxtqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735352170496-dvktoh6u17ae47d8a5m1al7ebv05oq0b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

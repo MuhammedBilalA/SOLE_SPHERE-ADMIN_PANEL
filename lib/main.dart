@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sole_sphere_admin/application/add_brand/add_brand_image_notifier.dart';
@@ -6,7 +7,9 @@ import 'package:sole_sphere_admin/application/add_product/brand_selection_notifi
 import 'package:sole_sphere_admin/presentation/home_screens/home_screen.dart';
 import 'package:sole_sphere_admin/presentation/splash_screen/splash_screen.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(SoleSphereAdmin());
 }
 
@@ -35,7 +38,6 @@ class SoleSphereAdmin extends StatelessWidget {
         ChangeNotifierProvider<BrandSelectionNotifier>(
           create: (context) => BrandSelectionNotifier(),
         ),
-       
       ],
       child: MaterialApp(
         theme: ThemeData(primarySwatch: black),

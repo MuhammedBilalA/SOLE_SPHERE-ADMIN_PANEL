@@ -6,10 +6,12 @@ class TitleTexFormField extends StatelessWidget {
       {super.key,
       required this.title,
       required this.height,
-      required this.inputType});
+      required this.inputType,
+      required this.textEditingController});
   String title;
   double height;
   TextInputType inputType;
+  TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +19,7 @@ class TitleTexFormField extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
-              color: kwhite, fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(color: kwhite, fontWeight: FontWeight.bold, fontSize: 20),
         ),
         SizedBox(
           height: 20,
@@ -26,13 +27,14 @@ class TitleTexFormField extends StatelessWidget {
         SizedBox(
           height: height,
           child: TextFormField(
+            controller: textEditingController,
             keyboardType: inputType,
             expands: true,
             maxLines: null,
-            
             cursorColor: kwhite,
             style: TextStyle(color: kwhite),
             decoration: InputDecoration(
+              helperText: '',
               label: Text(
                 title,
                 style: TextStyle(color: kwhite),
@@ -59,10 +61,17 @@ class TitleTexFormField extends StatelessWidget {
                 ),
               ),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'this field is requierd';
+              } else {
+                return null;
+              }
+            },
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
       ],
     );
